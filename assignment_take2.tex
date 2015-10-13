@@ -1,0 +1,558 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{epstopdf}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+\usepackage{float}
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%    TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{   
+\normalfont \normalsize
+\textsc{Earth, Ocean and Atmospheric Sciences Dept. UBC} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Scavenging Model and Parameterization \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Xiaoxin (Cindy) Yu} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%    PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Scavenging Model}
+
+%\lipsum[2] % Dummy text
+
+The distribution of $^{231}Pa$ and $^{230}Th$ are controlled by absorption, desorption and sinking processes. Assuming no advection by currents, the tracer-element activity in dissolved form $X_{s}$ and particulate form $X_{p}$ could be descripted by the following equations:
+\begin{align}
+\label{eq:basic}
+\begin{split}
+\frac{\partial X_{d}}{\partial t} = Q-kX_{d}+k_{-1}X_{p}\\
+%\frac{\partial Pa_{p}}{\partial t} = kPa_{d}-k_{-1}Pa_{p}+s\frac{\partial Pa_{p}}{\partial z}
+\end{split}
+\end{align}
+
+\begin{align}
+\label{eq:basic2}
+\begin{split}
+\frac{\partial X_{p}}{\partial t} = kX_{d}-k_{-1}X_{p}-s\frac{\partial X_{p}}{\partial z}
+\end{split}
+\end{align}
+
+where Q($dpm m^{-3}y^{-1}$) is the production rate of $^{231}Pa$ or $^{230}Th$, $k_{1}$($yr^{-1}$) and $k_{-1}$($yr^{-1}$) are the exchange rate constants of the elements by adsorption and desorption respectively, S($m/yr$) is the sinking rate of particles and z (m) is depth.
+
+The dissolved and particulate pools exchange material through adsorption and desorption. If the scavenging processes are fast enough, it can be assumed that there is a chemical equilibrium between the dissolved and the particulate pool. Assuming the elements are at steady state and introducing the reversible equilibrium between dissolved and particulate phases, equation \ref{eq:basic} and \ref{eq:basic2} become:
+
+\begin{align}
+\label{eq:stable}
+\begin{split}
+0= Q-kX_{d}+k_{-1}X_{p}
+\end{split}
+\end{align}
+
+\begin{align}
+\label{eq:stable2}
+\begin{split}
+0 = kX_{d}-k_{-1}X_{p}+s\frac{\partial X_{p}}{\partial z}
+\end{split}
+\end{align}
+
+Assuming Q, k,$k_{-1}$ and s are constants, the analytical solutions of the partial differential equations \ref{eq:stable} and \ref{eq:stable2} are:
+
+\begin{align}
+\label{eq:sol}
+\begin{split}
+X_{p} = \frac{Q}{s}z+C_{1}
+\end{split}
+\end{align}
+
+\begin{align}
+\label{eq:sol2}
+\begin{split}
+X_{d} = \frac{Q}{k} + \frac {k_{-1}}{k}\left( \frac{Q}{s}z+C_{1}\right)
+\end{split}
+\end{align}
+
+where $ C_{1}$ is an intercept from integrating equation \ref{eq:stable2}.
+
+\section{Parameterization}
+
+The basic idea to determine the parameters is to fit the analytical solutions with observed data, the locations of which are shown in figure \ref{fig:map}. There are four important parameters in equation \ref{eq:basic} and \ref{eq:basic2} that can determine the tracer's distributions. They are production rate Q, sinking rate S, scavenging coefficients ${k_{1}}$ and $k_{-1}$.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=21pc]{Figures/map.pdf}
+\caption{Station Locations}
+ \label{fig:map}
+\end{figure}
+
+Among all the parameters, the production rates of $^{231}Pa$ and $^{230}Th$ are best known (0.00246  $dpm/m^{3}y$ and 0.0267 $dpm/m^{3}y$ respectively). However, the parameterizations of rest of them are complicated.
+
+\subsection{Sinking rate}
+\subsubsection{Estimate sinking rate at each station}
+
+Sinking rate describes the speed of particulate matter that sinks from the euphotic zone to depth. Note that in equation \ref{eq:sol} , the slope, $\frac{Q}{s}$, contains two parameters, sinking rate, s, and production rate Q. According to the steady analytical solution, $^{231}Pa$ and $^{230}Th$ increase with depth linearly. Therefore, least squares method was applied to find the realistic slopes, $\alpha$, in each station. 
+
+To ensure that a high-quality data point influences the fit more than a low-quality data point, the summed square of the residuals, $rss$, is weighted by measurement errors:
+\begin{align}
+\label{eq:WLS1}
+rss= \sum\limits_{i=1}^n w_{i}\left(y_{i}-\hat {y_{i}}\right)^{2}
+\end{align}
+where n is the number of data points, $y_{i}$ are the data and $\hat {y_{i}}$ are the fits. $w_{i}$ are the weights, which are given by $w_{i}=\frac{1}{\sigma_{i}^2}$, where $\sigma_{i}$ are the errors reported in the original publication.
+
+Assume $\hat {y_{i}}=\alpha x_{i}+\beta$,
+\begin{align}
+\label{eq:WLS3}
+rss= \sum\limits_{i=1}^n w_{i}\left(y_{i}- \left(\alpha x_{i}+\beta\right)\right)
+\end{align}
+
+Because the least-squares fitting process minimizes the summed square of the residuals\footnotemark[1], the coefficients are determined by differentiating rss with respect to each parameter, and setting the result equal to zero.
+\footnotetext[1]{Using weighted least square fit package in python statsmodels.}
+
+\begin{align}
+\label{eq:WLS4}
+\frac{\partial rss}{\partial \alpha}= -2\sum\limits_{i=1}^n x_{i}w_{i}\left(y_{i}- \left(\alpha x_{i}+\beta\right)\right) =0
+\end{align}
+\begin{align}
+\label{eq:WLS4.1}
+\frac{\partial rss}{\partial \beta}= -2\sum\limits_{i=1}^n w_{i}\left(y_{i}- \left(\alpha x_{i}+\beta\right)\right) =0
+\end{align}
+The previous equations become:
+
+\begin{align}
+\label{eq:WLS5}
+\sum\limits_{i=1}^n x_{i}w_{i}\left(y_{i}- \left(\alpha x_{i}+\beta\right)\right) =0
+\end{align}
+\begin{align}
+\label{eq:WLS5.1}
+\sum\limits_{i=1}^n w_{i}\left(y_{i}- \left(\alpha x_{i}+\beta\right)\right) =0
+\end{align}
+
+where the summations run from i = 1 to n. The normal equations are defined as
+\begin{align}
+\label{eq:WLS6}
+\sum\limits_{i=1}^n x_{i}w_{i}y_{i}=\alpha \sum\limits_{i=1}^n x_{i}^2+\beta \sum\limits_{i=1}^n x_{i}
+\end{align}
+\begin{align}
+\label{eq:WLS6.1}
+\sum\limits_{i=1}^n w_{i}y_{i}=\alpha \sum\limits_{i=1}^n x_{i}w_{i}+ \beta \sum\limits_{i=1}^n w_{i}
+\end{align}
+
+Sloving for $\alpha$ and $\beta$,
+\begin{align}
+\label{eq:WLS7}
+\alpha = \frac{n\sum x_{i}w_{i}y_{i} -\sum x_{i}\sum w_{i}y_{i}}{\sum x_{i}^2 - \left(\sum x_{i}\right)^2}=\frac{Q}{s}
+\end{align}
+\begin{align}
+\beta = \frac{1}{\sum x_{i}}\left(\sum y_{i}-\alpha\sum x_{i}\right)=C_{1}
+\label{eq:WLS7.1}
+\end{align}
+
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=30pc]{Figures/Part_Pa_all.pdf}
+  \caption*{(a)$^{231}Pa$ particulate data}
+\centering  
+  \includegraphics[width=30pc]{Figures/Part_Th_all.pdf}
+  \caption*{(b)$^{230}Th$ particulate data }
+\caption{The points are the observed particulate data and the lines are given by the weighted least squares regression. The cross stands for the data that is not taken into consideration since it was affected by currents which could tell from the non-linear shape.}
+ \label{fig:result_part}
+\end{figure}
+
+Based on the weighted least square method, the data was fitted and the results are shown in figure \ref{fig:result_part}. With the slope coming from real data set, the sinking rate in each station is given by:
+\begin{align}
+\label{eq:para_s}
+s=\frac{\alpha}{Q}.
+\end{align}
+
+Since the amount $^{231}Pa$ and $^{230}Th$  produced at z=0 in an infinitely thin layer tends towards 0, marine particulate concentration of this species should be zero, which gives the boundary condition, $C_{1}=0$ in equation \ref{eq:sol}. However, the results from figure \ref{fig:result_part} indicate the amount of particulate $^{230}Th$ and $^{231}Pa$ are not zero at the surface, which leads us to another question: whether forcing the intercepts to zero will give a significantly better estimate. This problem can be solved by testing whether the model with 2 degrees of freedom behaves significantly better than the one with 2 degree of freedom. The F-test was therefore employed.
+
+\subsubsection{F-test}
+If there are n data points to estimate parameters of both models from, one can calculate the F statistic by:
+
+\begin{align}
+\label{eq:F}
+F=\frac{\frac{rss_{1}-rss_{2}}{p_{2}-p_{1}}}{\frac{rss_{2}}{n-p_{2}}}
+\end{align}
+where $rss_{i}$ is the residual sum of squares of model i, p and n is the number of predictors and observations. 
+
+If we reorganize equation \ref{eq:F}, we will have:
+\begin{align}
+\label{eq:F2}
+F=\left(\frac{rss_{1}}{rss_{2}}-1\right){\frac{p_{2}-p_{1}}{n-p_{2}}}
+\end{align}
+
+Assuming $\frac{p_{2}-p_{1}}{n-p_{2}}$ in the equation \ref{eq:F2} stays the same, a high F ratio will be obtained if $\frac{rss_{1}}{rss_{2}}$ is large, which means the deviations of predicted from actual observed data in model 2 is much lower than those in model 2. In the F-test, p-value measures the probability of obtaining an F Ratio as large as what is observed. In general, higher the F ratio obtained, smaller probability to be observed, which leads to a lower p-value. As a result, a lower the p-value can indicate performance of model 1 is better. 
+
+Let  model 1 to be the fittings without an intercept, $\hat {y_{1}}=\alpha x$, and set model 2 to be the model with an intercept, $\hat {y_{2}}=\alpha x_{i}+\beta$. According to equation \ref{eq:F2}, null hypothesis can be specified as: model 2 does not provide a significantly better fit than model 1. The hypothesis will be rejected if the calculated p value from the data is not less than the critical p-value. In this paper, critical value was set to be 0.05.
+
+\begin{table}[!h]
+\caption{Results of the F-test (based on particulate data)}%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|c|c|}
+\hline
+ Cruise &Station&$F_{^{230}Th}$&df\footnotemark[2]&$p_{^{230}Th}$&$F_{^{231}Pa}$&df&$p_{^{231}Pa}$\\
+\hline
+1983 CESAR  &stn1&1.45&(1,3)&0.31&-&-&-\\1987 ARKIV/3&stn1&0.76&(1,6)&0.42&-&-&-\\
+1987 ARKIV/3&stn2&6.95&(1,5)&0.05&-&-&-\\
+1987 ARKIV/3&stn3&0.19&(1,5)&0.68&-&-&-\\
+1987 ARKIV/3&stn4&0.03&(1,3)&0.86&-&-&-\\
+1991 ARCTIC EXPEDITION&stn1&15.03&(1,3)&0.03&4.20&(1,3)&0.13\\
+1991 ARCTIC EXPEDITION&stn2&166.80&(1,2)&0.01&2.22&(1,2)&0.27\\
+1991 ARCTIC EXPEDITION&stn3&13.06&(1,4)&0.02&55.05&(1,4)&0.00\\
+1991 ARCTIC EXPEDITION&stn4&20.73&(1,4)&0.01&17.64&(1,3)&0.02\\
+1991 ARCTIC EXPEDITION&stn5&1.42&(1,3)&0.32&-&-&-\\
+1991 ARCTIC EXPEDITION&stn6&3.22&(1,4)&0.15&0.88&(1,3)&0.42\\
+AWS 2000&stn1&16.60&(1,8)&0.00&-&-&-\\
+\hline
+\end{tabular}
+\label{tab:pvalue}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+\footnotetext[2]{df stands for degree of freedom. For each F distribution, df is ($p_{2}-p_{1},n-p_{2}$).}
+
+Table \ref{tab:pvalue} shows that half of the $^{230}Th$ stations have p-value less than 0.05, which suggests model 2 provides a significantly better fit, while the other half stations have p-values that are not greater than 0.05, which suggest the opposite. As for $^{231}Pa$, 3 out of 5 $^{231}Pa$ stations have p-values larger than 0.05 and the rest 2 stations have lower than 0.05 p-values. That information fails to directly answer the question on whether fitting the data with an intercept is better or not. 
+
+However, we can try another way by doing a calculation on all the $^{230}Th$ and $^{231}Pa$ profiles. 
+
+Let $rss_{1}=\sum rss_{1i}$, where i stands for the $i^{th}$ station, $p_{1}=1\times$ number of stations, $p_{2}=2\times $number of stations and n= total number of points and then substitude into equation \ref{eq:F}.
+
+After the calculation, $^{231}Pa$ turns out to have a F ratio that reaches 11.94, with (5,14) degree of freedom,  while $^{230}Th$, with (12,51) degree of freedom, has a slightly higher F ratio, 23.06 P-value comes out to be $2.25\times 10^{-3}$ for $^{231}Pa$ and $8.11\times10^{-06}$ for $^{230}Th$. Since these numbers are less than 0.05, we can safely draw the conclusion that allowing an intercept to zero enables the weighted least squares to fit the observed $^{231}Pa$ and $^{230}Th$ particulate data significantly better. 
+
+Therefore, the previous regressions are valid in estimating the sinking rates. 
+
+\begin{table}[!h]
+\caption{Station Locations, Calculated Sinking Rates and Error(particulate $^{230}Th$)}%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|}
+\hline
+ Cruise &Station&$^{230}Th$ Sinking rate&$^{230}Th$ $\sigma_{Sinking}$\\
+\hline
+1983 CESSAR& stn1&555.0m/yr&256.9m/yr\\
+1987 ARKIV/3&stn1&629.3m/yr&171.0m/yr\\
+1987 ARKIV/3&stn2&778.8m/yr&113.4m/yr\\
+1987 ARKIV/3&stn3&228.5m/yr&313.9m/yr\\
+1987 ARKIV/3&stn4&310.0m/yr&113.4m/yr\\
+1991 ARCTIC EXPEDITION&stn1&1267.9m/yr&308.0m/yr\\
+1991 ARCTIC EXPEDITION&stn2&871.8m/yr&150.6m/yr\\
+1991 ARCTIC EXPEDITION&stn3&470.9m/yr&50.2m/yr\\
+1991 ARCTIC EXPEDITION&stn4&914.1m/yr&104.4m/yr\\
+1991 ARCTIC EXPEDITION&stn5&711.5m/yr&359.6m/yr\\
+1991 ARCTIC EXPEDITION&stn6&497.0m/yr&93.1m/yr\\
+AWS 2000&stn1&1178.6m/yr&2946.5m/yr\\
+\hline
+\end{tabular}
+\label{tab:sink_th}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+
+\begin{table}[!h]
+\caption{Station Locations, Calculated Sinking Rates and Error(particulate $^{231}Pa$)}%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|}
+\hline
+ Cruise &Station& $^{231}Pa$ Sinking rate& $^{231}Pa$ $\sigma_{Sinking}$\\
+\hline
+1991 ARCTIC EXPEDITION&stn1&1424.7m/yr&915.7m/yr\\
+1991 ARCTIC EXPEDITION&stn2&1240.0m/yr&1267.2m/yr\\
+1991 ARCTIC EXPEDITION&stn3&1205.9m/yr&325.2m/yr\\
+1991 ARCTIC EXPEDITION&stn4&1731.4m/yr&810.2m/yr\\
+1991 ARCTIC EXPEDITION&stn6&559.4m/yr&361.0m/yr\\
+\hline
+\end{tabular}
+\label{tab:sink_pa}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+
+Table \ref{tab:sink_th} and \ref{tab:sink_pa} show the estimate sinking rates, which values vary from station to station and the $^{231}Pa$ ones are always faster than the $^{230}Th$'s. This result is consistant with our knowledge that preferential scavenging of $^{230}Th$ and  $^{231}Pa$ are relative to different marine particles (lithogenic materials and biogenic particles, respectively).
+
+Given the fact that the marine particles accounts for the effect of sinking, one would expect a higher sinking rate of particulate matter at the area where the concentration of biological particles is high. Since the number of oceanic particles are related to the ocean primary production, which is affected by sea ice concentration that controls the light availability in the water, further effort was made to explore the correlations between sinking rates with sea ice concentrations. 
+
+\subsubsection{Correlation with sea ice concentrations}
+
+Historical sea ice concentrations were taken from the sea ice dataset of polar research groups in University of Illinois Urbana-Champaign (http://arctic.atmos.uiuc.edu/SEAICE/). 
+
+Since the suspended particles in the deep water must experience a long time for the gains and losses of the radionuclides before it comes to balance, monthly historical ice cover data of each sampling locations was averaged over 2 years before correlated with the corresponding sinking rates. 
+
+However, to complete all our knowledge of how the sinking rate changes with the sea ice concentration,  we need more data in the areas without the cover of sea ice. For that purpose, we included sinking rate (500m/yr) of zero ice concentration regions from previous research. 
+
+\begin{figure}[!h]
+\centering
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=15pc]{Figures/Pa_sinking.pdf}\\(a)$^{231}Pa$ sinking rates
+\end{minipage}%
+\begin{minipage}{.5\textwidth}
+  \centering
+  \includegraphics[width=15pc]{Figures/Th_sinking.pdf}\\(b)$^{230}Th$ sinking rates
+  \end{minipage}
+\caption{The sinking rates were estimated from the particulate data and the steady state analytical solution. Sea ice concentrations came from the historical sea ice dataset of polar research groups, the University of Illinois Urbana-Champaign.}
+ \label{fig:sink}
+\end{figure}
+
+Result is shown in Figure \ref{fig:sink}. Starting at 500m/yr at zero sea ice concentration, the slope of $^{231}Pa$ in figure \ref{fig:sink}(a) was 6.01 $\pm$1.92 ($m/y\%$).  The overall F-statistic ratio\footnotemark[3] is 5.14 and the corresponding p value is 0.09. This p value is slightly higher than 0.05, which suggests that a non-zero slope model might be not suitable. Therefore, a f-test between a zero slope model and a non-zero slope model has to be conducted before making model selection. Let model 1 to be $\hat {s_{1}}=\bar{s}$, where the $\bar{s}$ stands for the averaged sinking rate from table \ref{tab:sink_pa}, and model 2 to be $\hat {s_{2}}=\alpha$'$ C+\bar{s}$.  The p-value turns out to be $3.76\times 10^{-14}$, which is certainly statistically significant and therefore support the idea that the approximation with non-zero slope model is significantly better in describing the realtionship between sea ice concentration and the $^{231}Pa$ sinking rate.
+
+\footnotetext[3]{ The overall F-statistic is used as a preliminary test of the significance of the model prior to performing model selection. 
+For the overall F-statistic, null hypothesis $H_{0}$ is all non-constant coefficients in the regression equation are zero while the alternate hypothesis is at least one of the non-constant coefficients in the regression equation is non-zero. The F ratio is obatain by the same equation we used before (equation \ref{eq:F}). In our case, the overall F-statistic value is generated by the weighted least square module in python statsmodels.}
+
+So for $^{231}Pa$, its sinking rate is described as:
+
+\begin{align}
+\label{eq:para_s_func}
+s=6.01C+500m/yr.
+\end{align}
+where C is the ice concentration.
+
+The slope for $^{230}Th$ was 2.26$\pm$0.80 ($m/y\%$).The $^{230}Th$ F-statistic ratio was 7.13 with a low p value, 0.02.  The result strongly indicates the confident level linear relationship between sea ice concentration and the k value is $^{230}Th$ significant.
+
+So the sinking rate of $^{230}Th$ is parameterized as a function of sea ice concentration:
+
+\begin{align}
+\label{eq:para_s_func-th}
+s=2.26C+500m/yr.
+\end{align}
+
+where C is the ice concentration.
+
+
+\subsection{Scavenging coefficients}
+
+Scavenging coefficients, ${k}$ and $k_{-1}$, are applied to describe the how rapidly the element adsorbs onto falling particles and desorbs back to water column. To parameter ${k}$ and $k_{-1}$, we should take a look back on equation \ref{eq:sol2}. Reorganzing it gives:
+\begin{align}
+\label{eq:reorganize}
+x_{d}=\frac{k_{-1}}{k}\frac{Q}{s}z+\frac{Q+k_{-1}C_{1}}{k},
+\end{align}
+
+Assuming the regression function is given in the form of $\hat{y}=ax+b$, the slope will be equal to:
+\begin{align}
+a=\frac{k_{-1}}{k}\frac{Q}{s},
+\end{align}
+while the intercept, b, can be described as:
+\begin{align}
+b=\frac{Q+k_{-1}C_{1}}{k}. 
+\end{align}
+
+Solving the equation above gives the values of ${k}$ and $k_{-1}$:
+\begin{align}
+\label{eq:para_k-1}
+k_{-1}=\frac{aks}{Q},
+\end{align}
+
+\begin{align}
+\label{eq:para_k}
+k=\frac{Q^{2}}{Qb-asC_{1}},
+\end{align}
+where $C_{1}$ is equal to the intercepts obtained from the previous regressions (figure \ref{fig:result_part}). 
+
+The uncertainty of k and $k_{-1}$ follows the equations below:
+
+\begin{align}
+\label{eq:errk}
+\sigma_{k}=\left|\frac{\partial k}{\partial b}\right|\sigma_{b}+\left|\frac{\partial k}{\partial C_{1}}\right|\sigma_{C_{1}}+\left|\frac{\partial k}{\partial a}\right|\sigma_{a}+\left|\frac{\partial k}{\partial s}\right|\sigma_{s},
+\end{align}
+
+\begin{equation}
+\label{eq:errk}
+\sigma_{k_{-1}}=\left|\frac{\partial k_{-1}}{\partial k}\right|\sigma_{k}+\left|\frac{\partial k_{-1}}{\partial a}\right|\sigma_{a}+\left|\frac{\partial k_{-1}}{\partial s}\right|\sigma_{s},
+\end{equation}
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=30pc]{Figures/Diss_Pa_all.pdf}
+  \caption*{(a)$^{231}Pa$ dissolved data}
+\centering  
+  \includegraphics[width=30pc]{Figures/Diss_Th_all.pdf}
+  \caption*{(b)$^{230}Th$ dissolved data}
+\caption{The points are the observed dissolved data and the lines are given by the weighted least squares regression. The cross stands for the data that is not taken into consideration since it was affected by currents which could tell from the non-linear shape.}
+ \label{fig:all_eqn}
+\end{figure}
+
+The regressions $\hat{y}\approx f\left(z\right)$ were shown in figure \ref{fig:all_eqn}. The corresponding ${k}$ and $k_{-1}$ rates were shown in table \ref{tab:kkth}. 
+
+\begin{table}[h!]
+\caption{Station Locations, Calculated Scavenging Coefficients ( $^{230}Th$)}%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|}
+\hline
+ Cruise &Station&$^{230}Th$ k rate&$^{230}Th$ $\sigma_{k}$&$^{230}Th$ $k_{-1}$ rate&$^{230}Th$ $\sigma_{k_{-1}}$\\
+\hline
+1983 CESAR &stn1&0.06/yr&0.04/yr&1.11/yr&1.51/yr\\
+1987 ARKIV/3&stn1&0.16/yr&0.09/yr&0.63/yr&0.62/yr\\
+1987 ARKIV/3&stn2&0.14/yr&0.07/yr&0.90/yr&0.68/yr\\
+1987 ARKIV/3&stn3&0.38/yr&0.14/yr&0.47/yr&0.31/yr\\
+1987 ARKIV/3&stn4&0.39/yr&0.33/yr&0.59/yr&0.77/yr\\
+1991 ARCTIC EXPEDITION&stn1&0.07/yr&0.03/yr&0.27/yr&0.28/yr\\
+1991 ARCTIC EXPEDITION&stn2&0.09/yr&0.04/yr&0.29/yr&0.25/yr\\
+1991 ARCTIC EXPEDITION&stn3&0.14/yr&0.07/yr&1.30/yr&0.88/yr\\
+1991 ARCTIC EXPEDITION&stn4&0.13/yr&0.03/yr&0.44/yr&0.22/yr\\
+1991 ARCTIC EXPEDITION&stn5&0.07/yr&0.04/yr&0.33/yr&0.42/yr\\
+1991 ARCTIC EXPEDITION&stn6&0.11/yr&0.04/yr&0.44/yr&0.32/yr\\
+AWS 2000&stn1              &0.05/yr&0.12/yr\footnotemark[4]&0.40/yr&1.98/yr\footnotemark[4]\\
+\hline
+\end{tabular}
+\label{tab:kkth}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+\footnotetext[4]{The unusually huge error is mainly given by the particulate non-linear vertical  profile.}
+
+\begin{table}[h!]
+\caption{Station Locations, Calculated Scavenging Coefficients ($^{231}Pa$)}%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|}
+\hline
+ Cruise &Station&$^{231}Pa$ k rate& $^{231}Pa$ $\sigma_{k}$&$^{231}Pa$ $k_{-1}$ rate&$^{231}Pa$ $\sigma_{k_{-1}}$\\
+\hline
+
+1991 ARCTIC EXPEDITION&stn1&0.010/yr&0.005/yr&0.305/yr&0.403/yr\\
+1991 ARCTIC EXPEDITION&stn2&0.010/yr&0.012/yr&0.316/yr&0.783/yr\\
+1991 ARCTIC EXPEDITION&stn3&0.005/yr&0.001/yr&0.328/yr&0.287/yr\\
+1991 ARCTIC EXPEDITION&stn4&0.009/yr&0.004/yr&0.281/yr&0.314/yr\\
+1991 ARCTIC EXPEDITION&stn6&0.015/yr&0.013/yr&0.336/yr&0.548/yr\\
+\hline
+\end{tabular}
+\label{tab:kkpa}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+
+
+\subsubsection{Parameterize absorption rate ($k$)}
+
+To further parameterize k and ${k_{-1}}$ with the numbers in table \ref{tab:kkth} and \ref{tab:kkpa}, we should realize the absorption and desorption are two different processes that should be parameterized separately.  In the this section, we will paramterize absorption rate first and then move to desorption rate in the next section.
+
+For the absorption rate, because the spatial variation in productivity and particle flux affects the absorption intensity, correlation between sea ice concentration and k values was investigated. 
+
+Similar with the parameterization to the sinking rate, the value of k from previous model work was included and used as the value of zero ice concentration regions ($0.06\pm0.02$ $yr^{-1}$ for $^{231}Pa$; $0.75\pm0.25$ $yr^{-1}$ for $^{230}Th$). 
+
+Figure \ref{fig:k} shows the removals of the isotopes would be less intensive in the area of higher sea ice concentration. The slope of $\hat{k}\approx f\left(C\right)$,  where C is the sea ice concentration, turned out to be $-0.0005$ $(yr\%)^{-1}$ for $^{231}Pa$ and $-0.0067$  $(yr\%)^{-1}$ for $^{230}Th$. Both of them has a close-to-zero error. Their p-values of the overall F-statistic are $2.15\times 10^{-6}$ and $7.40\times 10^{-15}$ respectively. 
+
+Since these p-values are less than the significance level, which indicates a significant relationship between sea ice concentrations and absorption rate, we can parameter the k value as a function of sea ice concentration:
+
+
+For $^{231}Pa$, 
+
+\begin{align}
+\label{eq:para_k_pa}
+k=-0.0005C+0.06yr^{-1}
+\end{align}
+
+For $^{230}Th$, 
+
+
+\begin{figure}[h!]
+\centering
+\begin{minipage}{.51\textwidth}
+  \centering
+  \includegraphics[width=15pc]{Figures/Pa_k.pdf}\\(a)$^{231}Pa$ K values
+\end{minipage}%
+\begin{minipage}{.51\textwidth}
+  \centering
+  \includegraphics[width=15pc]{Figures/Th_k.pdf}\\(b)$^{230}Th$ K values
+  \end{minipage}
+\caption{The k values were estimated from equation \ref{eq:para_k}.}
+ \label{fig:k}
+\end{figure}
+
+
+\begin{align}
+\label{eq:para_k_th}
+k=-0.0067C+0.75yr^{-1}.
+\end{align}
+
+where C is the sea ice concentration.
+
+
+
+\subsubsection{Parameterize desorption rate ($k_{-1}$)}
+
+Different from the absorption rate, desorption rates are independent of the particle concentrations \cite{k-1}. Therefore, it is inappropriate to correlate the desorption rates with sea ice concentrations. 
+
+Note that there are wide variations in the $^{230}Th$ desorption rate in the Arctic. The method to parameterize $k_{-1}$ of $^{230}Th$ is to find the basin scale difference by interpolating\footnotemark[5] the desorption rates in the Arctic based on the $k_{-1}$ value in table \ref{tab:kkth}. \footnotetext[5]{ The interpolation used PyKrige 0.1.2 Python package.}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=22pc]{Figures/k_1_Th_distribution.pdf}
+\caption{The $^{230}Th$ $k_{-1}$ values (/yr) in the Arctic. The colour of points shows the calculated value of $k_{-1}$, which could be referred from table \ref{tab:kkth}.}
+\label{fig:k-1}
+\end{figure}
+
+
+The interpolation was shown in figure \ref{fig:k-1}. This result suggests high $k_{-1}$ in the Alpha Ridge and Lomonosov Ridge, slightly high $k_{-1}$ in the Nansen-Gakkel Ridge and low $k_{-1}$ in Canada biasin, Nansen Basin and Amundsen Basin. 
+
+
+Different from $^{230}Th$, the five $^{231}Pa$ stations exhibit a small variation in desorption rates (table \ref{tab:kkpa}).In addition, we do not have data in the western Arctic to support a basin scale difference idea, we thus assume the release of $^{231}Pa$ by the particulate matter is approximately  uniform in the Arctic. Therefore, its desorption rate is set to be a constant, $k_{-1}=0.31$. The value is given by the averge $^{231}Pa$ $k_{-1}$ value in table \ref{tab:kkpa}.
+
+
+
+
+
+\begin{thebibliography}{}
+
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{\textit{Clegg, S. L., Bacon, M. P.} (1991)}]{k-1}
+Application of a generalized scavenging model to thorium isotope and particle data at equatorial and high latitude sites in the Pacific Ocean. \textit{Journal of Geophysical Research: Oceans (1978-2012), 96(C11), 20655-20670.}
+\end{thebibliography}
+
+
+\end{document}

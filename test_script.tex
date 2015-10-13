@@ -1,0 +1,190 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%    PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=11pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage{subfig}
+%\usepackage{epstopdf}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%    TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{   
+\normalfont \normalsize
+\textsc{Earth, Ocean and Atmospheric Sciences Dept. UBC} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge Test script \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Xiaoxin (Cindy) Yu} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%    PROBLEM 1
+%----------------------------------------------------------------------------------------
+This chapter expalins how to examine the scavenging script in NEMO model.
+\section{Input Sources}
+
+The scavenging script follows the equation below:
+
+\begin{align}
+\label{eq:dis}
+\begin{split}
+\frac{X_{d}(t,z)-X_{d}(t-\Delta t,z)}{\Delta t}=Q-k\times X_{d}(t,z)+k_{-1}\times X_{p}(t,z)
+\end{split}
+\end{align}
+
+\begin{align}
+\label{eq:part}
+\begin{split}
+\frac{X_{p}(t,z)-X_{p}(t-\Delta t,z)}{\Delta t}=k\times X_{d}(t,z)-k_{-1}\times X_{p}(t,z)+s\times \frac{X_{p}(t,z)-X_{p}(t,z-\Delta z)}{\Delta z}
+\end{split}
+\end{align}
+
+where k and s is changing with sea ice concentration, and $k_{-1}$ for $^{231}Pa$ is constant,0.31, and the one for $^{230}Th$ is based on the interpolation from the previousparameterization section.  
+
+To create the test, we put the script in an simplfied configuration, turn off the flow and run the model for 80 years. The result shows concentrations of the tracers increase fast at the first few years and then slowly reach a steady state, as expected.
+
+ The next step is to verify that the script returns the right value. The analytical steday state solution could be obtained from \frac{\partial X_{d}}{\partial t}=0 and \frac{\partial X_{p}}{\partial t}=0.
+ 
+\begin{align}
+\label{eq:sol}
+\begin{split}
+X_{p} = \frac{Q}{s}z
+\end{split}
+\end{align}
+
+\begin{align}
+\label{eq:sol2}
+\begin{split}
+X_{d} = \frac{Q}{k} + \frac {k_{-1}}{k}\frac{Q}{s}z
+\end{split}
+\end{align}
+In the simplified configuration, there is no variation in both sinking rate and scavenging coefficences. For $^{231}Pa$, sinking rate s=500m/yr, while the absorption rate k=$balabalba$ and the desorption rate $k_{-1}=bablablabala$.   Model results of there different depths that come from surface, intermediate and deep layer are chosen for comparison.
+
+
+
+
+
+
+
+
+
+
+
+
+In the Arctic, if the tracers start from zero concentraions, it takes $^{231}Pa$ more than 70 years and $^{230}Th$ approximately 5 years to reach steady state, which means to get the intial condition by spining the model for years is unrealistic (or 'time consuming'? which word is better?). Therefore the initial conditons will generate from observation.  
+
+Due to relatively few dissolved and particulate $^{230}Th$ and $^{231}Pa$ observation for the Arctic and the fact that stations of total $^{230}Th$ and $^{231}Pa$ data locates mainly in Canda Basin and Makarov Basin - somewhere the dissolved and particulate dataset lacks, we included total $^{230}Th$ and $^{231}Pa$ concentration data for the initial condition. To extract dissolved and particulate information from total $^{231}Pa$ ($^{230}Th$) data, we assume the dissolved phase takes up 90$\%$ of the total and the particulate phase accounts for 10$\%$. 
+
+\begin{table}[!h]
+\caption{Station Locations, Calculated Sinking rates and $C_{1}$ ($^{231}Pa$) }%\tablenotemark{a}}
+\centering
+\begin{tabular}{ |c|c|c|c|c|c|}
+\hline
+ Cruise &Station&Sinking rate&$e_{Sinking}$&$C_{1}$&$e_{C_{1}}$\\
+\hline
+ 1991 ARCTIC EXPEDITION&stn1&1322.4m/yr&730.1m/yr&$0.28\times10^{-2}$&$0.18\times10^{-2}$\\
+ 1991 ARCTIC EXPEDITION&stn2&1302.1m/yr&274.5m/yr&$0.52\times10^{-2}$&$0.32\times10^{-2}$\\
+ 1991 ARCTIC EXPEDITION&stn3&1269.1m/yr&544.2m/yr&$0.59\times10^{-2}$&$0.08\times10^{-2}$\\
+ 1991 ARCTIC EXPEDITION&stn4&1731.1m/yr&516.8m/yr&$0.45\times10^{-2}$&$0.11\times10^{-2}$\\
+ 1991 ARCTIC EXPEDITION&stn6&641.1m/yr&815.1m/yr&$0.69\times10^{-2}$&$1.00\times10^{-2}$\\
+\hline
+\end{tabular}
+\label{tab:2}
+%\tablenotetext{a}{Footnote text here.}
+\end{table}
+
+\section{Interpolation}
+Before horizontal interpolation, linear vertical interpolations were generated in order to obtain interpolated values at the same depth as our model grid (Figure \ref{fig:all_ver}). 
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=30pc]{Figures/Diss_Pa_all.pdf}
+  \caption*{(a)$^{231}Pa$ dissolved data}
+\centering  
+  \includegraphics[width=30pc]{Figures/Diss_Th_all.pdf}
+  \caption*{(b)$^{230}Th$ dissolved data}
+\caption{The points are the observed data and the lines are given by the linear interpolation. Interpolated results that hit the sea floor are masked.}
+ \label{fig:all_ver}
+\end{figure}
+
+
+The horizontal interpolations\footnotemark[5] were executed based on model grid that has a horizontal resolution of $\frac{1}{4}\degree\times\frac{1}{4}\degree$. Results were shown in figure \ref{fig:all_hori}. \footnotetext[5]{ The interpolation used PyKrige 0.1.2 Python package.} 
+
+\begin{figure}[!h]
+\centering
+  \includegraphics[width=30pc]{Figures/Diss_Pa_all.pdf}
+  \caption*{(a)$^{231}Pa$ dissolved data}
+\centering  
+  \includegraphics[width=30pc]{Figures/Diss_Th_all.pdf}
+  \caption*{(b)$^{230}Th$ dissolved data}
+\caption{The points are the observed data and the lines are given by the linear interpolation. Interpolated results that hit the sea floor are masked.}
+ \label{fig:all_hori}
+\end{figure}
+
+\begin{thebibliography}{}
+
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{\textit{Clegg, S. L., Bacon, M. P.} (1991)}]{k-1}
+Application of a generalized scavenging model to thorium isotope and particle data at equatorial and high latitude sites in the Pacific Ocean. \textit{Journal of Geophysical Research: Oceans (1978-2012), 96(C11), 20655-20670.}
+\end{thebibliography}
+
+
+\end{document}
